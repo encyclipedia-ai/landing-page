@@ -4,8 +4,12 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 // Closed beta. CTAs route to a Google Form (or any URL) collecting invite
 // requests. Override via NEXT_PUBLIC_INVITE_FORM_URL in env if you ever
 // need to swap the form (e.g. point at the live app sign-in once we open).
+// Treat empty strings as unset — `??` only falls back on null/undefined,
+// and a misconfigured CI env var that expands to "" would otherwise bake
+// `href=""` into every CTA.
 const INVITE_URL =
-  process.env.NEXT_PUBLIC_INVITE_FORM_URL ?? "https://forms.gle/TqmoQowcGULhtTLL6";
+  process.env.NEXT_PUBLIC_INVITE_FORM_URL ||
+  "https://forms.gle/TqmoQowcGULhtTLL6";
 
 const features = [
   {

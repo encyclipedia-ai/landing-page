@@ -44,10 +44,6 @@ jobs:
 
       - name: Build static site
         run: pnpm build
-        env:
-          # Override the default invite URL at build time if you ever want a
-          # different form for production deploys without changing code.
-          NEXT_PUBLIC_INVITE_FORM_URL: ${{ vars.NEXT_PUBLIC_INVITE_FORM_URL }}
 
       - name: Disable Jekyll
         # GitHub Pages otherwise tries to run files through Jekyll, which
