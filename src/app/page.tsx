@@ -1,8 +1,11 @@
 
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://app.encyclipedia.ai";
-const SIGN_IN_URL = `${APP_URL}/sign-in`;
+// Closed beta. CTAs route to a Google Form (or any URL) collecting invite
+// requests. Override via NEXT_PUBLIC_INVITE_FORM_URL in env if you ever
+// need to swap the form (e.g. point at the live app sign-in once we open).
+const INVITE_URL =
+  process.env.NEXT_PUBLIC_INVITE_FORM_URL ?? "https://forms.gle/TqmoQowcGULhtTLL6";
 
 const features = [
   {
@@ -55,14 +58,49 @@ const roadmap = [
   },
 ];
 
-const planFeatures = [
-  "Unlimited streams processed",
-  "Unlimited generated clips",
-  "No credits, no per-clip charges, ever",
-  "Review, edit, and publish to TikTok from one dashboard",
-  "Full clip library with recut & re-export",
-  "Every future source + destination as it ships",
-  "Email support",
+const plans = [
+  {
+    id: "basic",
+    name: "Basic",
+    price: 20,
+    tagline: "For one creator, one channel.",
+    features: [
+      "Bind one YouTube channel to your account",
+      "Unlimited clipping from your bound channel",
+      "Real-time auto-clipping the moment your stream goes live",
+      "Full clip library with recut & re-export",
+      "Publish or schedule to TikTok from one queue",
+    ],
+    highlighted: false,
+  },
+  {
+    id: "premium",
+    name: "Premium",
+    price: 50,
+    tagline: "Clip from anywhere on YouTube.",
+    features: [
+      "Everything in Basic",
+      "Clip from any YouTube URL — not just your bound channel",
+      "Browse and clip from any creator's uploads or VODs",
+      "Priority job processing",
+    ],
+    highlighted: true,
+  },
+  {
+    id: "network",
+    name: "Network",
+    price: 100,
+    tagline: "Manage a roster of channels.",
+    features: [
+      "Everything in Premium",
+      "Bind up to 12 YouTube channels under one account",
+      "Run a network of creators from a single dashboard",
+      "Real-time auto-clipping across every bound channel",
+      "White-glove onboarding",
+    ],
+    highlighted: false,
+    comingSoon: true,
+  },
 ];
 
 const faqs: { q: string; a: string }[] = [
@@ -72,7 +110,7 @@ const faqs: { q: string; a: string }[] = [
   },
   {
     q: "How is this different from Opus, Spikes, or Wayin?",
-    a: "They sell credits. We don't. Their pricing is built around limiting how much you can clip; ours is built around clipping as much as you want for a flat $15. We're also building specifically for live streamers, not VOD editors — see the auto-clip-when-stream-ends roadmap.",
+    a: "They sell credits. We don't. Their pricing is built around limiting how much you can clip; ours is built around clipping as much as you want for a flat monthly rate. We're also building specifically for live streamers, not VOD editors — see the auto-clip-when-stream-ends roadmap.",
   },
   {
     q: "What if I stream for 4+ hours?",
@@ -121,16 +159,12 @@ export default function Landing() {
             </a>
             <ThemeToggle />
             <a
-              href={SIGN_IN_URL}
-              className="text-sm font-serif text-ink hover:text-accent transition"
-            >
-              Sign in
-            </a>
-            <a
-              href={SIGN_IN_URL}
+              href={INVITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-sm font-serif rounded-md bg-accent text-accent-contrast px-3 py-1.5 hover:bg-accent-strong transition"
             >
-              Sign up
+              Request invite
             </a>
           </nav>
         </div>
@@ -153,19 +187,15 @@ export default function Landing() {
           </p>
           <div className="mt-10 flex items-center justify-center gap-3 flex-wrap">
             <a
-              href={SIGN_IN_URL}
+              href={INVITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-md bg-accent text-accent-contrast px-6 py-3 font-serif text-base hover:bg-accent-strong transition"
             >
-              Get started free
-            </a>
-            <a
-              href={SIGN_IN_URL}
-              className="rounded-md border border-border-strong text-ink px-6 py-3 font-serif text-base hover:bg-surface transition"
-            >
-              Sign in
+              Request an invite
             </a>
           </div>
-          <p className="mt-4 text-xs text-muted">No credit card required · 1 free stream</p>
+          <p className="mt-4 text-xs text-muted">Closed beta · invite-only while we onboard our first creators</p>
         </section>
 
         {/* Features */}
@@ -191,43 +221,59 @@ export default function Landing() {
         <section id="pricing" className="max-w-[1200px] mx-auto px-6 py-16 border-t border-border">
           <p className="smallcaps text-[10px] text-accent mb-2 text-center">Pricing</p>
           <h3 className="font-serif text-3xl md:text-4xl font-bold text-center mb-3">
-            One plan. Unlimited everything.
+            Three plans. Unlimited clipping.
           </h3>
           <p className="text-center text-muted text-sm mb-12 max-w-xl mx-auto">
-            No credits. No per-clip metering. No “fair use” asterisk. Cancel anytime.
+            No credits. No per-clip metering. Pick the plan that matches how
+            you stream. Cancel anytime.
           </p>
-          <div className="max-w-md mx-auto">
-            <div className="rounded-lg border border-accent bg-surface px-7 py-8 flex flex-col shadow-[0_0_0_1px_var(--color-accent)]">
-              <div className="flex items-center justify-between mb-2">
-                <p className="smallcaps text-[10px] text-accent">Pro</p>
-                <p className="smallcaps text-[10px] text-bronze">Unlimited</p>
-              </div>
-              <div className="flex items-baseline gap-2 mb-1">
-                <span className="font-serif text-5xl font-bold">$15</span>
-                <span className="text-sm text-muted">/ month</span>
-              </div>
-              <p className="text-sm text-muted italic font-serif mb-6">
-                Free to try — your first stream is on us.
-              </p>
-              <ul className="space-y-2 mb-7">
-                {planFeatures.map((feat) => (
-                  <li key={feat} className="flex items-start gap-2 text-sm">
-                    <span className="text-accent mt-0.5">✓</span>
-                    <span>{feat}</span>
-                  </li>
-                ))}
-              </ul>
-              <a
-                href={SIGN_IN_URL}
-                className="rounded-md font-serif text-center px-4 py-3 bg-accent text-accent-contrast hover:bg-accent-strong transition"
+          <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto items-stretch">
+            {plans.map((plan) => (
+              <div
+                key={plan.id}
+                className={`rounded-lg border bg-surface px-7 py-8 flex flex-col ${
+                  plan.highlighted
+                    ? "border-accent shadow-[0_0_0_1px_var(--color-accent)]"
+                    : "border-border"
+                }`}
               >
-                Start free
-              </a>
-            </div>
-            <p className="mt-6 text-center text-xs text-muted">
-              No credits. No per-clip charges. No “fair use” asterisk.
-            </p>
+                <div className="flex items-center justify-between mb-2">
+                  <p className="smallcaps text-[10px] text-accent">{plan.name}</p>
+                  {plan.comingSoon && (
+                    <p className="smallcaps text-[10px] text-bronze">Coming soon</p>
+                  )}
+                </div>
+                <div className="flex items-baseline gap-2 mb-1">
+                  <span className="font-serif text-5xl font-bold">${plan.price}</span>
+                  <span className="text-sm text-muted">/ month</span>
+                </div>
+                <p className="text-sm text-muted italic font-serif mb-6">{plan.tagline}</p>
+                <ul className="space-y-2 mb-7 flex-1">
+                  {plan.features.map((feat) => (
+                    <li key={feat} className="flex items-start gap-2 text-sm">
+                      <span className="text-accent mt-0.5">✓</span>
+                      <span>{feat}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={INVITE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`rounded-md font-serif text-center px-4 py-3 transition ${
+                    plan.highlighted
+                      ? "bg-accent text-accent-contrast hover:bg-accent-strong"
+                      : "border border-border-strong text-ink hover:bg-surface"
+                  }`}
+                >
+                  {plan.comingSoon ? "Join the waitlist" : "Request an invite"}
+                </a>
+              </div>
+            ))}
           </div>
+          <p className="mt-6 text-center text-xs text-muted">
+            No credits. No per-clip charges. Cancel anytime.
+          </p>
         </section>
 
         {/* Roadmap */}
@@ -287,10 +333,12 @@ export default function Landing() {
             Your next viral clip is already inside a stream you&apos;ve already recorded.
           </p>
           <a
-            href={SIGN_IN_URL}
+            href={INVITE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block rounded-md bg-accent text-accent-contrast px-8 py-3 font-serif text-base hover:bg-accent-strong transition"
           >
-            Get started free
+            Request an invite
           </a>
         </section>
       </main>
