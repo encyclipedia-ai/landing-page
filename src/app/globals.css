@@ -1,0 +1,290 @@
+@import "tailwindcss";
+
+/*
+ * encyclipedia.ai — Roman aesthetic
+ *
+ * Two themes:
+ *   - Default (light)  : Marble & Travertine — ivory page, basalt ink, terracotta + bronze accents.
+ *   - data-theme=dark  : Basalt & Patina   — warm grey stone, parchment ink, same terracotta + bronze.
+ *
+ * Strictly no purple, no pure black. Pure black is replaced with deep basalt #1f1d1a.
+ * Buttons use solid fills + clear borders for legibility.
+ */
+
+@theme {
+  /* ── Light (Marble) is the default token set ─────────────── */
+
+  /* Surfaces — travertine + polished marble */
+  --color-bg: #f1ead8;            /* aged travertine page */
+  --color-surface: #fbf6e8;       /* polished marble panel */
+  --color-surface-2: #ece3cc;     /* recessed marble */
+  --color-border: #c8bda0;        /* mortar line */
+  --color-border-strong: #9d8e6c; /* carved edge */
+
+  /* Text — basalt ink */
+  --color-text: #2a2620;
+  --color-ink: #1f1d1a;           /* darker emphasis */
+  --color-muted: #6f6754;
+
+  /* Accents — Pompeian terracotta + bronze */
+  --color-accent: #b04a2f;        /* terracotta */
+  --color-accent-strong: #8a3520;
+  --color-accent-dim: #d77a5e;
+  --color-accent-soft: #f3e0d4;   /* tinted background wash */
+  --color-accent-contrast: #fbf6e8; /* text on accent */
+
+  --color-bronze: #8a6a3b;
+  --color-bronze-strong: #6b5028;
+
+  /* Status */
+  --color-success: #4f7b3a;       /* laurel green */
+  --color-warn: #c08a1f;          /* ochre */
+  --color-danger: #8a2f25;        /* deep crimson */
+
+  /* Typography — Trajan-inspired display, Lora for body */
+  --font-serif: var(--font-cinzel), "Cinzel", "Trajan Pro", Georgia, serif;
+  --font-body: var(--font-lora), "Lora", "Crimson Pro", Georgia, serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Menlo", monospace;
+}
+
+/* ── Dark (Basalt) override ────────────────────────────────── */
+[data-theme="dark"] {
+  --color-bg: #2a2825;            /* warm basalt grey */
+  --color-surface: #34312d;       /* slate panel */
+  --color-surface-2: #3f3b36;     /* recessed slate */
+  --color-border: #514c46;        /* weathered seam */
+  --color-border-strong: #756e64;
+
+  --color-text: #ece7da;          /* lamp-lit parchment */
+  --color-ink: #faf6ec;
+  --color-muted: #a39d8e;
+
+  --color-accent: #c25d3f;        /* slightly brighter terracotta in low light */
+  --color-accent-strong: #d77a5e;
+  --color-accent-dim: #8a3520;
+  --color-accent-soft: #4a2a1f;   /* dark tinted wash */
+  --color-accent-contrast: #1f1d1a;
+
+  --color-bronze: #c9a064;        /* polished bronze glints in dark */
+  --color-bronze-strong: #e2c089;
+
+  --color-success: #8aaf6a;
+  --color-warn: #d4a017;
+  --color-danger: #c45a4f;
+}
+
+/* ── Base elements ─────────────────────────────────────────── */
+html, body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-feature-settings: "liga", "kern", "onum";
+}
+
+body {
+  background-image:
+    radial-gradient(at 20% 10%, color-mix(in srgb, var(--color-bronze) 8%, transparent) 0, transparent 55%),
+    radial-gradient(at 85% 90%, color-mix(in srgb, var(--color-accent) 6%, transparent) 0, transparent 55%);
+  background-attachment: fixed;
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  color: var(--color-ink);
+}
+
+/* Headings: Trajan-style display */
+h1, h2, h3, h4, h5, h6,
+.font-serif {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.005em;
+}
+
+/* Roman small caps for section labels */
+.smallcaps {
+  font-family: var(--font-serif);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+}
+
+/* Header monogram — bronze stamped plate, theme-reactive */
+.crest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 2px;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.25rem;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-bronze) 80%, white) 0%,
+    var(--color-bronze) 55%,
+    var(--color-bronze-strong) 100%
+  );
+  color: var(--color-accent-contrast);
+  border: 1px solid var(--color-bronze-strong);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 35%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, black 25%, transparent),
+    0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* Ornamental rule — laurel divider */
+.fleuron {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: var(--color-bronze);
+}
+.fleuron::before,
+.fleuron::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border-strong), transparent);
+}
+.fleuron > span {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+}
+
+/* ── Surface: marble tablet card ───────────────────────────── */
+.book-card {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--color-border-strong) 30%, transparent),
+    0 6px 16px -10px rgba(0, 0, 0, 0.25);
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+.book-card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    var(--color-bronze) 0%,
+    var(--color-accent) 50%,
+    var(--color-bronze) 100%
+  );
+  border-radius: 3px 0 0 3px;
+}
+
+/* ── Inputs: incised tablet ────────────────────────────────── */
+.field {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border-strong);
+  border-radius: 2px;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 200ms ease;
+}
+.field:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 22%, transparent);
+}
+.field::placeholder { color: color-mix(in srgb, var(--color-muted) 75%, transparent); }
+
+/* ── Buttons (clearer hierarchy) ───────────────────────────── */
+
+/* Primary — solid terracotta with marble text. Sharp Roman edge. */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  border: 1px solid var(--color-accent-strong);
+  border-radius: 2px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 18%, transparent),
+    0 1px 2px rgba(0, 0, 0, 0.18);
+  transition: background-color 120ms ease, transform 80ms ease, box-shadow 120ms ease;
+  cursor: pointer;
+}
+.btn-primary:hover:not(:disabled) { background: var(--color-accent-strong); }
+.btn-primary:active:not(:disabled) { transform: translateY(1px); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Secondary — bronze outline, fills on hover */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: transparent;
+  color: var(--color-bronze-strong);
+  border: 1px solid var(--color-bronze);
+  border-radius: 2px;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  transition: background-color 120ms ease, color 120ms ease, transform 80ms ease;
+  cursor: pointer;
+}
+[data-theme="dark"] .btn-secondary { color: var(--color-bronze); }
+.btn-secondary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-bronze) 15%, transparent);
+  color: var(--color-ink);
+}
+.btn-secondary:active:not(:disabled) { transform: translateY(1px); }
+.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Ghost — quiet text button for nav / utility */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  background: transparent;
+  color: var(--color-muted);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: color 120ms ease, background-color 120ms ease;
+  cursor: pointer;
+}
+.btn-ghost:hover:not(:disabled) {
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-bronze) 10%, transparent);
+}
+
+/* ── Animations ────────────────────────────────────────────── */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.animate-pulse-slow { animation: pulse-slow 2s ease-in-out infinite; }
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, transparent 0%, var(--color-surface-2) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

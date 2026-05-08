@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="encyclipedia.ai monogram">
+  <defs>
+    <!-- Polished bronze plate (light theme tones - high contrast on light + dark browser chrome) -->
+    <linearGradient id="bronze" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#c9a064"/>
+      <stop offset="55%"  stop-color="#8a6a3b"/>
+      <stop offset="100%" stop-color="#6b5028"/>
+    </linearGradient>
+    <!-- Inner highlight (top) and shadow (bottom) — replicates the .crest CSS box-shadow insets -->
+    <linearGradient id="innerShade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.25"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer drop shadow (replicates 0 1px 2px rgba(0,0,0,0.25)) -->
+  <rect x="2" y="2" width="60" height="60" rx="3" ry="3" fill="#000" opacity="0.25"/>
+
+  <!-- Plate -->
+  <rect x="2" y="2" width="60" height="60" rx="3" ry="3" fill="url(#bronze)" stroke="#6b5028" stroke-width="1"/>
+  <!-- Inset highlight + shadow overlay -->
+  <rect x="2" y="2" width="60" height="60" rx="3" ry="3" fill="url(#innerShade)"/>
+
+  <!-- Æ monogram — Cinzel/Trajan-style serif aesthetic via Georgia fallback -->
+  <text x="32" y="44"
+        text-anchor="middle"
+        font-family="Cinzel, 'Trajan Pro', Georgia, serif"
+        font-weight="700"
+        font-size="38"
+        fill="#fbf6e8">Æ</text>
+</svg>
