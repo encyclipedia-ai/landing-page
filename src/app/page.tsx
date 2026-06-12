@@ -1,15 +1,13 @@
 
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-// Closed beta. CTAs route to a Google Form (or any URL) collecting invite
-// requests. Override via NEXT_PUBLIC_INVITE_FORM_URL in env if you ever
-// need to swap the form (e.g. point at the live app sign-in once we open).
-// Treat empty strings as unset — `??` only falls back on null/undefined,
-// and a misconfigured CI env var that expands to "" would otherwise bake
-// `href=""` into every CTA.
-const INVITE_URL =
-  process.env.NEXT_PUBLIC_INVITE_FORM_URL ||
-  "https://forms.gle/TqmoQowcGULhtTLL6";
+// Every CTA sends visitors straight into the product. Override via
+// NEXT_PUBLIC_APP_URL in env if the app ever moves off app.encyclipedia.ai.
+// Treat empty strings as unset — `||` falls back on "" too, so a
+// misconfigured CI env var that expands to "" won't bake `href=""` into
+// every CTA.
+const APP_URL =
+  process.env.NEXT_PUBLIC_APP_URL || "https://app.encyclipedia.ai";
 
 const features = [
   {
@@ -18,14 +16,19 @@ const features = [
       "Drop a YouTube URL. We pull the stream, scan the transcript, and surface the moments most likely to go viral — no manual scrubbing.",
   },
   {
-    title: "Review & one-click publish",
+    title: "Review & download",
     body:
-      "Browse the candidate clips, pick the ones you want, edit title and hashtags, then publish or schedule to TikTok — built-in queue, retries, and status.",
+      "Browse the candidate clips, pick the ones you want, and download polished vertical MP4s — ready to post to TikTok or anywhere else, on your schedule.",
+  },
+  {
+    title: "Edit & recut in-browser",
+    body:
+      "Fine-tune any clip without leaving the dashboard — adjust the start and end, recut on the spot, and re-export a fresh vertical version in seconds.",
   },
   {
     title: "Library of every clip",
     body:
-      "Every clip you generate stays catalogued by stream and channel, ready to recut, re-export, or republish later.",
+      "Every clip you generate stays catalogued by stream and channel, ready to recut, re-export, or re-download later.",
   },
 ];
 
@@ -36,6 +39,21 @@ const roadmap = [
       "The instant your stream goes offline, encyclipedia.ai starts processing — your first vertical clips are ready before you've even shut down OBS. Built for streamers, not VOD editors.",
   },
   {
+    title: "Twitch & Kick support",
+    body:
+      "Today we clip YouTube. Twitch and Kick are next — connect your channel and clip your live streams and VODs the same way. Included in your subscription, no upgrade tier.",
+  },
+  {
+    title: "Sharper clip generation",
+    body:
+      "Ongoing upgrades to how we find and cut moments — tighter boundaries, better hooks, and fewer misses, so more of every stream turns into clips worth posting.",
+  },
+  {
+    title: "Deeper clip editing",
+    body:
+      "More control in the editor: trim and reframe, tweak captions, swap hooks, and tune each clip before it ships — all in the browser.",
+  },
+  {
     title: "Smart vertical reframing",
     body:
       "Auto 9:16 reframing with speaker tracking and captions, so clips are TikTok-ready without an editor. Currently in development.",
@@ -43,12 +61,17 @@ const roadmap = [
   {
     title: "Every streaming platform as a source",
     body:
-      "Today: YouTube. Next: Twitch, Kick, Rumble, X/Twitter Spaces, and direct file uploads. If it streams, we'll clip it.",
+      "After Twitch and Kick: Rumble, X/Twitter Spaces, and direct file uploads. If it streams, we'll clip it.",
+  },
+  {
+    title: "One-click publishing",
+    body:
+      "Today you download your clips and post them yourself. Next: review, pick, and publish or schedule straight to TikTok from one queue — with retries and status, no manual upload.",
   },
   {
     title: "Every social platform as a destination",
     body:
-      "Today: TikTok. Next: Instagram Reels, YouTube Shorts, X, Facebook, LinkedIn — publish or schedule from one queue.",
+      "After TikTok publishing: Instagram Reels, YouTube Shorts, X, Facebook, and LinkedIn — publish or schedule from one queue.",
   },
   {
     title: "Creator-tuned vision models",
@@ -66,21 +89,21 @@ const plans = [
   {
     id: "basic",
     name: "Basic",
-    price: 20,
+    price: 10,
     tagline: "For one creator, one channel.",
     features: [
       "Bind one YouTube channel to your account",
       "Unlimited clipping from your bound channel",
       "Real-time auto-clipping the moment your stream goes live",
       "Full clip library with recut & re-export",
-      "Publish or schedule to TikTok from one queue",
+      "Download every clip as a ready-to-post vertical MP4",
     ],
     highlighted: false,
   },
   {
     id: "premium",
     name: "Premium",
-    price: 50,
+    price: 20,
     tagline: "Clip from anywhere on YouTube.",
     features: [
       "Everything in Basic",
@@ -89,21 +112,6 @@ const plans = [
       "Priority job processing",
     ],
     highlighted: true,
-  },
-  {
-    id: "network",
-    name: "Network",
-    price: 100,
-    tagline: "Manage a roster of channels.",
-    features: [
-      "Everything in Premium",
-      "Bind up to 12 YouTube channels under one account",
-      "Run a network of creators from a single dashboard",
-      "Real-time auto-clipping across every bound channel",
-      "White-glove onboarding",
-    ],
-    highlighted: false,
-    comingSoon: true,
   },
 ];
 
@@ -125,8 +133,8 @@ const faqs: { q: string; a: string }[] = [
     a: "Today, only YouTube. Twitch, Kick, Rumble, and direct file uploads are next on the roadmap. Your subscription includes them automatically when they ship — no upgrade tier.",
   },
   {
-    q: "How does publishing work?",
-    a: "After a stream is processed, you review the candidate clips in your dashboard, pick the ones you like, edit titles and hashtags, and publish or schedule each one to TikTok. Fully automatic publishing is on the roadmap — today you stay in control of which clips go live.",
+    q: "How do I get my clips out?",
+    a: "After a stream is processed, you review the candidate clips in your dashboard, pick the ones you like, and download them as ready-to-post vertical MP4s — then post to TikTok or anywhere else yourself. One-click publishing and scheduling straight from the dashboard is on the roadmap.",
   },
   {
     q: "Can I cancel anytime?",
@@ -163,12 +171,10 @@ export default function Landing() {
             </a>
             <ThemeToggle />
             <a
-              href={INVITE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={APP_URL}
               className="text-sm font-serif rounded-md bg-accent text-accent-contrast px-3 py-1.5 hover:bg-accent-strong transition"
             >
-              Request invite
+              Clip now
             </a>
           </nav>
         </div>
@@ -184,22 +190,20 @@ export default function Landing() {
           <p className="mt-6 text-base md:text-lg text-muted max-w-2xl mx-auto font-serif italic">
             Built for streamers. Paste a YouTube URL — encyclipedia.ai watches the whole stream,
             finds the moments worth clipping, and reframes them vertical. You review, pick your
-            favorites, and publish to TikTok in a click.
+            favorites, and download them ready to post.
           </p>
           <p className="mt-3 text-xs text-muted max-w-2xl mx-auto">
-            Today: YouTube → TikTok. Soon: every streaming platform → every social platform.
+            Today: clip and download from YouTube. Soon: every streaming platform in, one-click publishing out.
           </p>
           <div className="mt-10 flex items-center justify-center gap-3 flex-wrap">
             <a
-              href={INVITE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={APP_URL}
               className="rounded-md bg-accent text-accent-contrast px-6 py-3 font-serif text-base hover:bg-accent-strong transition"
             >
-              Request an invite
+              Clip now
             </a>
           </div>
-          <p className="mt-4 text-xs text-muted">Closed beta · invite-only while we onboard our first creators</p>
+          <p className="mt-4 text-xs text-muted">Start free · 7-day trial, then $10/mo · no charge until your trial ends · cancel anytime</p>
         </section>
 
         {/* Features */}
@@ -225,13 +229,13 @@ export default function Landing() {
         <section id="pricing" className="max-w-[1200px] mx-auto px-6 py-16 border-t border-border">
           <p className="smallcaps text-[10px] text-accent mb-2 text-center">Pricing</p>
           <h3 className="font-serif text-3xl md:text-4xl font-bold text-center mb-3">
-            Three plans. Unlimited clipping.
+            Two plans. Unlimited clipping.
           </h3>
           <p className="text-center text-muted text-sm mb-12 max-w-xl mx-auto">
-            No credits. No per-clip metering. Pick the plan that matches how
-            you stream. Cancel anytime.
+            No credits. No per-clip metering. Every plan starts with a 7-day
+            free trial. Pick the one that matches how you stream. Cancel anytime.
           </p>
-          <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto items-stretch">
+          <div className="grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto items-stretch">
             {plans.map((plan) => (
               <div
                 key={plan.id}
@@ -243,9 +247,6 @@ export default function Landing() {
               >
                 <div className="flex items-center justify-between mb-2">
                   <p className="smallcaps text-[10px] text-accent">{plan.name}</p>
-                  {plan.comingSoon && (
-                    <p className="smallcaps text-[10px] text-bronze">Coming soon</p>
-                  )}
                 </div>
                 <div className="flex items-baseline gap-2 mb-1">
                   <span className="font-serif text-5xl font-bold">${plan.price}</span>
@@ -261,22 +262,20 @@ export default function Landing() {
                   ))}
                 </ul>
                 <a
-                  href={INVITE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={APP_URL}
                   className={`rounded-md font-serif text-center px-4 py-3 transition ${
                     plan.highlighted
                       ? "bg-accent text-accent-contrast hover:bg-accent-strong"
                       : "border border-border-strong text-ink hover:bg-surface"
                   }`}
                 >
-                  {plan.comingSoon ? "Join the waitlist" : "Request an invite"}
+                  Clip now
                 </a>
               </div>
             ))}
           </div>
           <p className="mt-6 text-center text-xs text-muted">
-            No credits. No per-clip charges. Cancel anytime.
+            7-day free trial on every plan. No credits. No per-clip charges. Cancel anytime.
           </p>
         </section>
 
@@ -284,7 +283,7 @@ export default function Landing() {
         <section id="roadmap" className="max-w-[1200px] mx-auto px-6 py-16 border-t border-border">
           <p className="smallcaps text-[10px] text-accent mb-2 text-center">Where this is going</p>
           <h3 className="font-serif text-3xl md:text-4xl font-bold text-center mb-3">
-            Today YouTube → TikTok. Tomorrow, everything.
+            Today clip & download. Tomorrow, everything.
           </h3>
           <p className="text-center text-muted text-sm mb-10 max-w-2xl mx-auto">
             We're shipping the smallest possible product first. Here's what we're building next —
@@ -337,12 +336,10 @@ export default function Landing() {
             Your next viral clip is already inside a stream you&apos;ve already recorded.
           </p>
           <a
-            href={INVITE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={APP_URL}
             className="inline-block rounded-md bg-accent text-accent-contrast px-8 py-3 font-serif text-base hover:bg-accent-strong transition"
           >
-            Request an invite
+            Clip now
           </a>
         </section>
       </main>
