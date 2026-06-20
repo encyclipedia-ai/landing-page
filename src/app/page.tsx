@@ -96,6 +96,7 @@ const plans = [
       "Unlimited clipping from your bound channel",
       "Real-time auto-clipping the moment your stream goes live",
       "Full clip library with recut & re-export",
+      "Clips stored for 30 days",
       "Download every clip as a ready-to-post vertical MP4",
     ],
     highlighted: false,
@@ -103,12 +104,13 @@ const plans = [
   {
     id: "premium",
     name: "Premium",
-    price: 20,
+    price: 30,
     tagline: "Clip from anywhere on YouTube.",
     features: [
       "Everything in Basic",
       "Clip from any YouTube URL — not just your bound channel",
       "Browse and clip from any creator's uploads or VODs",
+      "Clips stored for 90 days",
       "Priority job processing",
     ],
     highlighted: true,
@@ -203,7 +205,7 @@ export default function Landing() {
               Clip now
             </a>
           </div>
-          <p className="mt-4 text-xs text-muted">Start free · 7-day trial, then $10/mo · no charge until your trial ends · cancel anytime</p>
+          <p className="mt-4 text-xs text-muted">Start free · 7-day trial, then $10/mo (Basic) or $30/mo (Premium) · no charge until your trial ends · cancel anytime</p>
         </section>
 
         {/* Features */}
