@@ -56,7 +56,7 @@ export default function PrivacyPage() {
         <section className="mt-8 space-y-3">
           <h2 className="font-serif text-2xl text-ink">5. Contact</h2>
           <p className="text-sm leading-7 text-muted">
-            Privacy requests: support@encyclipedia.ai
+            Privacy requests: mau@encyclipedia.ai
           </p>
         </section>
 

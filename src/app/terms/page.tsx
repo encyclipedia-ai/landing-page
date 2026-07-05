@@ -37,7 +37,7 @@ export default function TermsPage() {
           </p>
           <p className="text-sm leading-7 text-muted">
             You are responsible for all activity under your account, including activity by authorized
-            team members. You must promptly notify us at support@encyclipedia.ai if you suspect
+            team members. You must promptly notify us at mau@encyclipedia.ai if you suspect
             unauthorized access.
           </p>
         </section>
@@ -143,7 +143,7 @@ export default function TermsPage() {
             terminated.
           </p>
           <p className="text-sm leading-7 text-muted">
-            To report infringement, contact support@encyclipedia.ai with sufficient detail to locate
+            To report infringement, contact mau@encyclipedia.ai with sufficient detail to locate
             the content, identify the claimed rights, and provide contact information.
           </p>
         </section>
@@ -230,14 +230,14 @@ export default function TermsPage() {
         <section className="mt-8 space-y-3">
           <h2 className="font-serif text-2xl text-ink">16. Contact</h2>
           <p className="text-sm leading-7 text-muted">
-            Questions about these Terms should be sent to support@encyclipedia.ai.
+            Questions about these Terms should be sent to mau@encyclipedia.ai.
           </p>
         </section>
 
         <section className="mt-8 space-y-3">
           <h2 className="font-serif text-2xl text-ink">5. Contact</h2>
           <p className="text-sm leading-7 text-muted">
-            Questions about these Terms: support@encyclipedia.ai
+            Questions about these Terms: mau@encyclipedia.ai
           </p>
         </section>
 
