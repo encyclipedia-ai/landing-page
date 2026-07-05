@@ -359,6 +359,8 @@ export default function Landing() {
             <a href="#pricing" className="hover:text-ink transition">Pricing</a>
             <a href="#roadmap" className="hover:text-ink transition">Roadmap</a>
             <a href="#faq" className="hover:text-ink transition">FAQ</a>
+            <a href="/terms" className="hover:text-ink transition">Terms</a>
+            <a href="/privacy" className="hover:text-ink transition">Privacy</a>
           </div>
           <p>© {new Date().getFullYear()} encyclipedia.ai</p>
         </div>
