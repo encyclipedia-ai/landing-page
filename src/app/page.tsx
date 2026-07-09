@@ -1,5 +1,6 @@
 
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ProductMockup } from "@/components/ProductMockup";
 
 // Every CTA sends visitors straight into the product. Override via
 // NEXT_PUBLIC_APP_URL in env if the app ever moves off app.encyclipedia.ai.
@@ -206,6 +207,72 @@ export default function Landing() {
             </a>
           </div>
           <p className="mt-4 text-xs text-muted">Start free · 7-day trial, then $10/mo (Basic) or $30/mo (Premium) · no charge until your trial ends · cancel anytime</p>
+        </section>
+
+        {/* Product showcase */}
+        <section className="max-w-[1200px] mx-auto px-6 pb-16">
+          <div className="relative">
+            {/* Gradient vignette so mockup fades into the page */}
+            <div className="absolute -inset-x-6 -top-6 h-16 bg-gradient-to-b from-[var(--color-bg)] to-transparent z-10 pointer-events-none" />
+            <ProductMockup />
+          </div>
+          <p className="mt-4 text-center text-xs text-muted italic">
+            The dashboard — your full clip library, one stream at a time.
+          </p>
+        </section>
+
+        {/* How it works */}
+        <section className="max-w-[1200px] mx-auto px-6 py-16 border-t border-border">
+          <p className="smallcaps text-[10px] text-accent mb-2 text-center">How it works</p>
+          <h3 className="font-serif text-3xl md:text-4xl font-bold text-center mb-12">
+            Paste. Wait. Download.
+          </h3>
+          <div className="grid sm:grid-cols-3 gap-6 md:gap-10 max-w-4xl mx-auto">
+            {[
+              {
+                num: "01",
+                title: "Drop a YouTube URL",
+                body: "Paste any YouTube link — a live VOD, upload, or stream. We resolve the video and queue it instantly.",
+                visual: (
+                  <div className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-center gap-2 mt-4">
+                    <span className="text-muted text-xs flex-1 font-mono truncate">youtube.com/watch?v=…</span>
+                    <span className="text-[10px] smallcaps font-semibold bg-accent text-accent-contrast rounded px-2 py-0.5">Clip</span>
+                  </div>
+                ),
+              },
+              {
+                num: "02",
+                title: "AI scans the whole stream",
+                body: "We transcribe audio, identify viral moments, and render vertical 9:16 clips — all automatically, no timeline scrubbing.",
+                visual: (
+                  <div className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-center gap-3 mt-4">
+                    <div className="h-3 w-3 rounded-full border-2 border-accent border-t-transparent animate-spin shrink-0" />
+                    <span className="text-[11px] text-muted">Detecting clips · 1h 42m scanned…</span>
+                  </div>
+                ),
+              },
+              {
+                num: "03",
+                title: "Review, pick, download",
+                body: "Browse clips in your dashboard, fine-tune any start/end point, and download polished vertical MP4s ready to post.",
+                visual: (
+                  <div className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-center justify-between mt-4">
+                    <span className="text-[11px] font-semibold text-ink">3 clips ready</span>
+                    <span className="text-[10px] smallcaps font-semibold border border-border-strong text-muted rounded px-2 py-0.5">↓ Download all</span>
+                  </div>
+                ),
+              },
+            ].map((step) => (
+              <div key={step.num} className="flex flex-col">
+                <p className="font-serif text-5xl font-bold text-[var(--color-border-strong)] leading-none mb-3">
+                  {step.num}
+                </p>
+                <h4 className="font-serif text-xl font-bold mb-2">{step.title}</h4>
+                <p className="text-sm text-muted leading-relaxed">{step.body}</p>
+                {step.visual}
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* Features */}
