@@ -1,6 +1,8 @@
 
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { ProductMockup } from "@/components/ProductMockup";
+import { BooksIntroVisual } from "@/components/BooksIntroVisual";
+import { ScrollProductSimulation } from "@/components/ScrollProductSimulation";
+import { FadeInOnView } from "@/components/FadeInOnView";
 
 // Every CTA sends visitors straight into the product. Override via
 // NEXT_PUBLIC_APP_URL in env if the app ever moves off app.encyclipedia.ai.
@@ -14,7 +16,7 @@ const features = [
   {
     title: "Auto-clipping",
     body:
-      "Drop a YouTube URL. We pull the stream, scan the transcript, and surface the moments most likely to go viral — no manual scrubbing.",
+      "Drop a stream or video URL. We pull the content, scan the transcript, and surface the moments most likely to go viral — no manual scrubbing.",
   },
   {
     title: "Review & download",
@@ -40,9 +42,9 @@ const roadmap = [
       "The instant your stream goes offline, encyclipedia.ai starts processing — your first vertical clips are ready before you've even shut down OBS. Built for streamers, not VOD editors.",
   },
   {
-    title: "Twitch & Kick support",
+    title: "Broader source coverage",
     body:
-      "Today we clip YouTube. Twitch and Kick are next — connect your channel and clip your live streams and VODs the same way. Included in your subscription, no upgrade tier.",
+      "Connect and clip across major streaming and video platforms with one workflow. Included in your subscription, no upgrade tier.",
   },
   {
     title: "Sharper clip generation",
@@ -62,7 +64,7 @@ const roadmap = [
   {
     title: "Every streaming platform as a source",
     body:
-      "After Twitch and Kick: Rumble, X/Twitter Spaces, and direct file uploads. If it streams, we'll clip it.",
+      "From livestream platforms to uploaded video libraries and direct file uploads. If it has moments, we'll clip it.",
   },
   {
     title: "One-click publishing",
@@ -72,7 +74,7 @@ const roadmap = [
   {
     title: "Every social platform as a destination",
     body:
-      "After TikTok publishing: Instagram Reels, YouTube Shorts, X, Facebook, and LinkedIn — publish or schedule from one queue.",
+      "After TikTok publishing: Instagram Reels, Shorts, X, Facebook, and LinkedIn — publish or schedule from one queue.",
   },
   {
     title: "Creator-tuned vision models",
@@ -93,7 +95,7 @@ const plans = [
     price: 10,
     tagline: "For one creator, one channel.",
     features: [
-      "Bind one YouTube channel to your account",
+      "Bind one creator profile to your account",
       "Unlimited clipping from your bound channel",
       "Real-time auto-clipping the moment your stream goes live",
       "Full clip library with recut & re-export",
@@ -106,11 +108,11 @@ const plans = [
     id: "premium",
     name: "Premium",
     price: 30,
-    tagline: "Clip from anywhere on YouTube.",
+    tagline: "Clip from anywhere across platforms.",
     features: [
       "Everything in Basic",
-      "Clip from any YouTube URL — not just your bound channel",
-      "Browse and clip from any creator's uploads or VODs",
+      "Clip from any supported URL — not just your bound channel",
+      "Browse and clip from any creator's uploads, streams, or VODs",
       "Clips stored for 90 days",
       "Priority job processing",
     ],
@@ -132,8 +134,8 @@ const faqs: { q: string; a: string }[] = [
     a: "Long streams are exactly what this is built for. encyclipedia.ai watches the entire stream, no length cap.",
   },
   {
-    q: "Does it work with Twitch / Kick / Rumble yet?",
-    a: "Today, only YouTube. Twitch, Kick, Rumble, and direct file uploads are next on the roadmap. Your subscription includes them automatically when they ship — no upgrade tier.",
+    q: "Does it work across streaming and video platforms?",
+    a: "Yes. The product is designed to work across major streaming and video platforms with one workflow. Coverage keeps expanding and your subscription includes new platform support as it ships — no upgrade tier.",
   },
   {
     q: "How do I get my clips out?",
@@ -175,7 +177,7 @@ export default function Landing() {
             <ThemeToggle />
             <a
               href={APP_URL}
-              className="text-sm font-serif rounded-md bg-accent text-accent-contrast px-3 py-1.5 hover:bg-accent-strong transition"
+              className="inline-flex items-center justify-center text-sm leading-none font-serif rounded-md bg-accent text-accent-contrast px-3 py-2 hover:bg-accent-strong transition"
             >
               Clip now
             </a>
@@ -184,42 +186,38 @@ export default function Landing() {
       </header>
 
       <main className="flex-1">
+        <BooksIntroVisual />
+
+        {/* Product showcase */}
+        <ScrollProductSimulation />
+
         {/* Hero */}
-        <section className="max-w-[1200px] mx-auto px-6 py-20 md:py-28 text-center">
+        <FadeInOnView
+          unlockEventName="timeline-third-unlocked"
+          className="max-w-[1200px] mx-auto px-6 pt-2 pb-20 md:pt-3 md:pb-28 text-center"
+        >
           <p className="smallcaps text-[11px] text-accent mb-4">Long form in · short form out</p>
           <h2 className="font-serif text-4xl md:text-6xl font-bold tracking-tight leading-[1.05] max-w-3xl mx-auto">
             Turn every stream into a <span className="text-accent">library of clips</span>.
           </h2>
           <p className="mt-6 text-base md:text-lg text-muted max-w-2xl mx-auto font-serif italic">
-            Built for streamers. Paste a YouTube URL — encyclipedia.ai watches the whole stream,
+            Built for streamers. Paste a stream or video URL — encyclipedia.ai watches the whole stream,
             finds the moments worth clipping, and reframes them vertical. You review, pick your
             favorites, and download them ready to post.
           </p>
           <p className="mt-3 text-xs text-muted max-w-2xl mx-auto">
-            Today: clip and download from YouTube. Soon: every streaming platform in, one-click publishing out.
+            Every major streaming and video platform in, one-click publishing out.
           </p>
-          <div className="mt-10 flex items-center justify-center gap-3 flex-wrap">
+          <div className="mt-7 md:mt-8 flex items-center justify-center gap-3 flex-wrap">
             <a
               href={APP_URL}
-              className="rounded-md bg-accent text-accent-contrast px-6 py-3 font-serif text-base hover:bg-accent-strong transition"
+              className="inline-flex items-center justify-center rounded-md bg-accent text-accent-contrast px-6 py-3 font-serif text-base leading-none hover:bg-accent-strong transition"
             >
               Clip now
             </a>
           </div>
           <p className="mt-4 text-xs text-muted">Start free · 7-day trial, then $10/mo (Basic) or $30/mo (Premium) · no charge until your trial ends · cancel anytime</p>
-        </section>
-
-        {/* Product showcase */}
-        <section className="max-w-[1200px] mx-auto px-6 pb-16">
-          <div className="relative">
-            {/* Gradient vignette so mockup fades into the page */}
-            <div className="absolute -inset-x-6 -top-6 h-16 bg-gradient-to-b from-[var(--color-bg)] to-transparent z-10 pointer-events-none" />
-            <ProductMockup />
-          </div>
-          <p className="mt-4 text-center text-xs text-muted italic">
-            The dashboard — your full clip library, one stream at a time.
-          </p>
-        </section>
+        </FadeInOnView>
 
         {/* How it works */}
         <section className="max-w-[1200px] mx-auto px-6 py-16 border-t border-border">
@@ -231,11 +229,11 @@ export default function Landing() {
             {[
               {
                 num: "01",
-                title: "Drop a YouTube URL",
-                body: "Paste any YouTube link — a live VOD, upload, or stream. We resolve the video and queue it instantly.",
+                title: "Drop a stream or video URL",
+                body: "Paste any link — a live stream, upload, or VOD. We resolve the source and queue it instantly.",
                 visual: (
                   <div className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-center gap-2 mt-4">
-                    <span className="text-muted text-xs flex-1 font-mono truncate">youtube.com/watch?v=…</span>
+                    <span className="text-muted text-xs flex-1 font-mono truncate">stream.example/video/…</span>
                     <span className="text-[10px] smallcaps font-semibold bg-accent text-accent-contrast rounded px-2 py-0.5">Clip</span>
                   </div>
                 ),
@@ -256,14 +254,14 @@ export default function Landing() {
                 title: "Review, pick, download",
                 body: "Browse clips in your dashboard, fine-tune any start/end point, and download polished vertical MP4s ready to post.",
                 visual: (
-                  <div className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-center justify-between mt-4">
+                  <div className="rounded-lg border border-border bg-surface px-4 py-2.5 mt-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <span className="text-[11px] font-semibold text-ink">3 clips ready</span>
-                    <span className="text-[10px] smallcaps font-semibold border border-border-strong text-muted rounded px-2 py-0.5">↓ Download all</span>
+                    <span className="inline-flex items-center justify-center text-[10px] smallcaps font-semibold border border-border-strong text-muted rounded px-2 py-0.5 sm:shrink-0">↓ Download all</span>
                   </div>
                 ),
               },
             ].map((step) => (
-              <div key={step.num} className="flex flex-col">
+              <div key={step.num} className="flex flex-col items-center text-center">
                 <p className="font-serif text-5xl font-bold text-[var(--color-border-strong)] leading-none mb-3">
                   {step.num}
                 </p>
@@ -285,7 +283,7 @@ export default function Landing() {
             {features.map((f) => (
               <div
                 key={f.title}
-                className="rounded-lg border border-border bg-surface px-6 py-5"
+                className="rounded-lg border border-border bg-surface px-6 py-5 text-center"
               >
                 <h4 className="font-serif text-xl mb-2">{f.title}</h4>
                 <p className="text-sm text-muted leading-relaxed">{f.body}</p>
@@ -308,21 +306,21 @@ export default function Landing() {
             {plans.map((plan) => (
               <div
                 key={plan.id}
-                className={`rounded-lg border bg-surface px-7 py-8 flex flex-col ${
+                className={`rounded-lg border bg-surface px-7 py-8 flex flex-col text-center ${
                   plan.highlighted
                     ? "border-accent shadow-[0_0_0_1px_var(--color-accent)]"
                     : "border-border"
                 }`}
               >
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-center mb-2">
                   <p className="smallcaps text-[10px] text-accent">{plan.name}</p>
                 </div>
-                <div className="flex items-baseline gap-2 mb-1">
+                <div className="flex items-baseline justify-center gap-2 mb-1">
                   <span className="font-serif text-5xl font-bold">${plan.price}</span>
                   <span className="text-sm text-muted">/ month</span>
                 </div>
                 <p className="text-sm text-muted italic font-serif mb-6">{plan.tagline}</p>
-                <ul className="space-y-2 mb-7 flex-1">
+                <ul className="space-y-2 mb-7 flex-1 text-left mx-auto">
                   {plan.features.map((feat) => (
                     <li key={feat} className="flex items-start gap-2 text-sm">
                       <span className="text-accent mt-0.5">✓</span>
@@ -332,7 +330,7 @@ export default function Landing() {
                 </ul>
                 <a
                   href={APP_URL}
-                  className={`rounded-md font-serif text-center px-4 py-3 transition ${
+                  className={`inline-flex items-center justify-center self-center rounded-md font-serif text-center leading-none px-4 py-3 transition ${
                     plan.highlighted
                       ? "bg-accent text-accent-contrast hover:bg-accent-strong"
                       : "border border-border-strong text-ink hover:bg-surface"
@@ -362,7 +360,7 @@ export default function Landing() {
             {roadmap.map((item) => (
               <div
                 key={item.title}
-                className="rounded-lg border border-border bg-surface px-6 py-5"
+                className="rounded-lg border border-border bg-surface px-6 py-5 text-center"
               >
                 <p className="smallcaps text-[10px] text-bronze mb-2">Coming</p>
                 <h4 className="font-serif text-lg mb-2">{item.title}</h4>
@@ -401,12 +399,12 @@ export default function Landing() {
           <h3 className="font-serif text-3xl md:text-4xl font-bold mb-4">
             Stop scrubbing. Start shipping.
           </h3>
-          <p className="text-muted max-w-xl mx-auto mb-8 font-serif italic">
+          <p className="text-muted max-w-xl mx-auto mb-6 font-serif italic">
             Your next viral clip is already inside a stream you&apos;ve already recorded.
           </p>
           <a
             href={APP_URL}
-            className="inline-block rounded-md bg-accent text-accent-contrast px-8 py-3 font-serif text-base hover:bg-accent-strong transition"
+            className="inline-flex items-center justify-center rounded-md bg-accent text-accent-contrast px-8 py-3 font-serif text-base leading-none hover:bg-accent-strong transition"
           >
             Clip now
           </a>

@@ -33,14 +33,47 @@ const MOCK_CLIPS = [
   },
 ];
 
-export function ProductMockup() {
+type ProductMockupProps = {
+  activeStep?: number;
+};
+
+const SCENES = [
+  {
+    eyebrow: "Connected profile mode",
+    title: "Clip your latest stream with one click",
+    subtitle: "Profile connected: @atlas_streams · Source linked",
+    status: "Queued",
+    action: "connected" as const,
+    readyCount: 0,
+  },
+  {
+    eyebrow: "Premium mode",
+    title: "Paste any stream or video URL to clip",
+    subtitle: "Premium unlocks clipping from any creator link",
+    status: "Processing",
+    action: "premium-url" as const,
+    readyCount: 1,
+  },
+  {
+    eyebrow: "Library ready",
+    title: "Review and download your best moments",
+    subtitle: "Three vertical clips exported and ready to post",
+    status: "Ready",
+    action: "results" as const,
+    readyCount: 3,
+  },
+];
+
+export function ProductMockup({ activeStep = 2 }: ProductMockupProps) {
+  const scene = SCENES[Math.min(Math.max(activeStep, 0), SCENES.length - 1)];
+
   return (
     <div
       aria-hidden="true"
-      className="rounded-xl border border-[var(--color-border-strong)] shadow-[0_24px_80px_rgba(0,0,0,0.18)] overflow-hidden select-none"
+      className="rounded-xl border border-[var(--color-border-strong)] bg-transparent shadow-[0_24px_80px_rgba(0,0,0,0.18)] overflow-hidden select-none min-h-[520px] md:min-h-[600px]"
     >
       {/* ── Browser chrome ──────────────────────────────── */}
-      <div className="bg-[var(--color-surface-2)] border-b border-[var(--color-border)] px-4 py-2.5 flex items-center gap-3">
+      <div className="bg-transparent border-b border-[var(--color-border)] px-4 py-2.5 flex items-center gap-3">
         <div className="flex gap-1.5 shrink-0">
           <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
           <span className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
@@ -54,7 +87,97 @@ export function ProductMockup() {
       </div>
 
       {/* ── App shell ───────────────────────────────────── */}
-      <div className="bg-[var(--color-bg)] px-5 py-6 md:px-8 md:py-8">
+      <div className="bg-transparent px-5 py-8 md:px-8 md:py-10">
+        <div className="mb-5 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] p-3.5">
+          <p className="smallcaps text-[10px] text-[var(--color-accent)] mb-1">{scene.eyebrow}</p>
+          <h5 className="font-serif font-bold text-[var(--color-ink)] text-sm leading-tight">{scene.title}</h5>
+          <p className="mt-1 text-[11px] text-[var(--color-muted)]">{scene.subtitle}</p>
+
+          <div className="mt-3 overflow-hidden">
+            <div
+              className={`transition-all duration-700 ease-in-out ${
+                scene.action === "results"
+                  ? "max-h-0 opacity-0 -translate-y-2 pointer-events-none"
+                  : "max-h-48 opacity-100 translate-y-0"
+              }`}
+            >
+              {scene.action === "connected" && (
+                <div className="rounded border border-[var(--color-border)] bg-[var(--color-bg)] p-2.5">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-[10px] text-[var(--color-muted)] font-mono">Latest from connected profile</span>
+                    <span className="rounded-full border border-[var(--color-border)] px-1.5 py-0.5 text-[9px] text-[var(--color-muted)]">Live</span>
+                  </div>
+                  <button
+                    className="mt-2 w-full uppercase tracking-wide rounded py-1.5 bg-[var(--color-accent)] text-[var(--color-accent-contrast)] font-semibold"
+                    style={{ fontSize: "9px" }}
+                  >
+                    Clip latest stream
+                  </button>
+                </div>
+              )}
+
+              {scene.action === "premium-url" && (
+                <div className="rounded border border-[var(--color-border)] bg-[var(--color-bg)] p-2.5">
+                  <div className="flex items-center gap-2 rounded border border-[var(--color-border)] bg-[var(--color-surface)] px-2 py-1">
+                    <span className="text-[9px] text-[var(--color-muted)] font-mono truncate">stream.example/video/clip-source-123</span>
+                  </div>
+                  <div className="mt-2 flex items-center gap-1.5">
+                    <span className="rounded-full bg-[var(--color-accent)] px-1.5 py-0.5 text-[9px] font-semibold text-[var(--color-accent-contrast)]">Premium</span>
+                    <button
+                      className="flex-1 uppercase tracking-wide rounded py-1.5 bg-[var(--color-accent)] text-[var(--color-accent-contrast)] font-semibold"
+                      style={{ fontSize: "9px" }}
+                    >
+                      Clip this URL
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div
+              className={`transition-all duration-700 ease-in-out ${
+                scene.action === "results"
+                  ? "max-h-[260px] opacity-100 translate-y-0"
+                  : "max-h-0 opacity-0 translate-y-2 pointer-events-none"
+              }`}
+            >
+              <div className="rounded border border-[var(--color-border)] bg-[var(--color-bg)] p-2.5">
+                <p className="text-[10px] text-[var(--color-muted)] font-mono">3 clips ready · 2 sources · 9:16 export</p>
+                <div className="mt-2 grid grid-cols-3 gap-1.5">
+                  {MOCK_CLIPS.map((clip) => (
+                    <div key={clip.title} className="rounded border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden">
+                      <div className="aspect-[9/16] relative" style={{ background: clip.bg }}>
+                        <div className="absolute top-1 right-1">
+                          <span className="font-bold rounded-full bg-[var(--color-accent)] text-[var(--color-accent-contrast)] px-1 py-0.5" style={{ fontSize: "8px" }}>
+                            {clip.score}
+                          </span>
+                        </div>
+                        <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-center py-0.5 font-mono" style={{ fontSize: "8px" }}>
+                          {clip.duration}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-2 flex gap-1.5">
+                  <button
+                    className="flex-1 uppercase tracking-wide rounded py-1.5 bg-[var(--color-accent)] text-[var(--color-accent-contrast)] font-semibold"
+                    style={{ fontSize: "9px" }}
+                  >
+                    Download all
+                  </button>
+                  <button
+                    className="flex-1 uppercase tracking-wide rounded py-1.5 border border-[var(--color-border-strong)] text-[var(--color-muted)]"
+                    style={{ fontSize: "9px" }}
+                  >
+                    Recut
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Stream header */}
         <div className="flex items-start justify-between mb-5">
           <div>
@@ -62,93 +185,27 @@ export function ProductMockup() {
               className="mb-1 font-mono uppercase tracking-widest text-[var(--color-accent)]"
               style={{ fontSize: "9px" }}
             >
-              Latest stream · done
+              Stream library · {scene.status.toLowerCase()}
             </p>
             <h4 className="font-serif font-bold text-[var(--color-ink)] leading-tight text-sm md:text-base">
               Sunday VOD — 4h 12m stream
             </h4>
             <p className="mt-0.5 text-[var(--color-muted)]" style={{ fontSize: "11px" }}>
-              3 clips generated · youtube.com
+              {scene.readyCount}/3 clips ready · multi-platform source
             </p>
           </div>
           <span
-            className="rounded-full border border-[var(--color-border)] text-[var(--color-muted)] px-2 py-0.5 shrink-0"
+            className={`rounded-full border px-2 py-0.5 shrink-0 ${
+              scene.status !== "Ready"
+                ? "border-[var(--color-accent)] text-[var(--color-accent)]"
+                : "border-[var(--color-border)] text-[var(--color-muted)]"
+            }`}
             style={{ fontSize: "10px" }}
           >
-            Done
+            {scene.status}
           </span>
         </div>
 
-        {/* Clip card rail */}
-        <div className="grid grid-cols-3 gap-3 md:gap-4">
-          {MOCK_CLIPS.map((clip) => (
-            <div
-              key={clip.title}
-              className="rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] overflow-hidden flex flex-col"
-            >
-              {/* 9:16 video area */}
-              <div
-                className="aspect-[9/16] relative"
-                style={{ background: clip.bg }}
-              >
-                {/* Viral score badge */}
-                <div className="absolute top-2 right-2">
-                  <span
-                    className="font-bold rounded-full bg-[var(--color-accent)] text-[var(--color-accent-contrast)] px-1.5 py-0.5"
-                    style={{ fontSize: "9px" }}
-                  >
-                    {clip.score}
-                  </span>
-                </div>
-                {/* Play button */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                    <span className="text-white pl-0.5" style={{ fontSize: "11px" }}>
-                      ▶
-                    </span>
-                  </div>
-                </div>
-                {/* Duration */}
-                <div
-                  className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-center py-0.5 font-mono"
-                  style={{ fontSize: "9px" }}
-                >
-                  {clip.duration}
-                </div>
-              </div>
-
-              {/* Card content */}
-              <div className="p-2.5 flex flex-col gap-2 flex-1">
-                <p
-                  className="font-semibold leading-tight line-clamp-2 text-[var(--color-ink)]"
-                  style={{ fontSize: "10px" }}
-                >
-                  {clip.title}
-                </p>
-                <p
-                  className="text-[var(--color-muted)] leading-snug line-clamp-2 hidden md:block"
-                  style={{ fontSize: "9px" }}
-                >
-                  {clip.summary}
-                </p>
-                <div className="mt-auto flex gap-1.5">
-                  <button
-                    className="flex-1 uppercase tracking-wide rounded py-1 bg-[var(--color-accent)] text-[var(--color-accent-contrast)] font-semibold"
-                    style={{ fontSize: "9px" }}
-                  >
-                    Play
-                  </button>
-                  <button
-                    className="flex-1 uppercase tracking-wide rounded py-1 border border-[var(--color-border-strong)] text-[var(--color-muted)]"
-                    style={{ fontSize: "9px" }}
-                  >
-                    ↓ Save
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );
