@@ -167,6 +167,9 @@ export default function Landing() {
             </div>
           </a>
           <nav className="flex items-center gap-3 sm:gap-5">
+            <a href="/librarian" className="hidden md:inline text-sm font-serif text-muted hover:text-ink transition">
+              Librarian
+            </a>
             <a href="#features" className="hidden sm:inline text-sm font-serif text-muted hover:text-ink transition">
               Features
             </a>
@@ -240,12 +243,20 @@ export default function Landing() {
               cookies stay local; only the media needed for your clipping jobs is
               handed to our renderer.
             </p>
-            <a
-              href={`${APP_URL}/onboarding`}
-              className="mt-5 inline-flex items-center justify-center rounded-md border border-accent px-5 py-2.5 font-serif text-sm text-accent hover:bg-accent hover:text-accent-contrast transition"
-            >
-              Start guided setup
-            </a>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="/librarian"
+                className="inline-flex items-center justify-center rounded-md bg-accent px-5 py-2.5 font-serif text-sm text-accent-contrast hover:bg-accent-strong transition"
+              >
+                Learn about Librarian
+              </a>
+              <a
+                href={`${APP_URL}/onboarding`}
+                className="inline-flex items-center justify-center rounded-md border border-accent px-5 py-2.5 font-serif text-sm text-accent hover:bg-accent hover:text-accent-contrast transition"
+              >
+                Start guided setup
+              </a>
+            </div>
           </div>
         </section>
 
@@ -461,6 +472,7 @@ export default function Landing() {
             </span>
           </div>
           <div className="flex items-center gap-5">
+            <a href="/librarian" className="hover:text-ink transition">Librarian</a>
             <a href="#features" className="hover:text-ink transition">Features</a>
             <a href="#pricing" className="hover:text-ink transition">Pricing</a>
             <a href="#roadmap" className="hover:text-ink transition">Roadmap</a>
