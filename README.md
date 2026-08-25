@@ -2,26 +2,53 @@
 
 Public marketing site for [encyclipedia.ai](https://encyclipedia.ai).
 
-The product itself lives at [app.encyclipedia.ai](https://app.encyclipedia.ai)
-in a separate repository. This site is intentionally a dumb static
-marketing page: no auth, no database, no API. While the app is in **closed
-beta**, every CTA routes to a Google Form collecting invite requests
-(falling back to a pre-filled `mailto:` if the form URL isn't configured).
+This repository is separate from the authenticated
+[Next.js product](https://github.com/encyclipedia-ai/encyclipedia-web-app) at
+[app.encyclipedia.ai](https://app.encyclipedia.ai). It has no authentication,
+database, API routes, or server runtime.
 
-## Develop
+The site explains that
+[Encyclipedia Librarian](https://github.com/encyclipedia-ai/encyclipedia-agent)
+is a required desktop companion: source media is downloaded on the user's
+computer before the
+[API](https://github.com/encyclipedia-ai/encyclipedia-api) hands uploaded media
+to the renderer.
+
+## Development
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-Set `NEXT_PUBLIC_INVITE_FORM_URL` in `.env.local` to point at your Google
-Form (or any URL). Without it, "Request an invite" buttons open a
-pre-filled email to `mau@encyclipedia.ai`.
+All product CTAs use `NEXT_PUBLIC_APP_URL`, falling back to
+`https://app.encyclipedia.ai`:
 
-## Deploy
+```bash
+NEXT_PUBLIC_APP_URL=http://localhost:3000 pnpm dev
+```
 
-Vercel project pointing at `encyclipedia.ai` + `www.encyclipedia.ai`. Set
-`NEXT_PUBLIC_INVITE_FORM_URL` in project env. When the app opens publicly,
-swap the env var (and update CTA copy in [`src/app/page.tsx`](src/app/page.tsx))
-to point at `https://app.encyclipedia.ai/sign-in` instead.
+Because this is a static export, the value is baked into the generated files
+at build time.
+
+## Static build
+
+`next.config.ts` sets `output: "export"` and disables image optimization for
+static hosting. Build output is written to `out/`:
+
+```bash
+NEXT_PUBLIC_APP_URL=https://app.encyclipedia.ai pnpm build
+```
+
+You can inspect `out/` with any static HTTP server. `pnpm start` is not the
+production deployment path for this exported site.
+
+## GitHub Pages deployment
+
+`.github/workflows/pages.yml` deploys on every push to `main` and supports
+manual dispatch. It installs dependencies, runs `pnpm build`, adds
+`out/.nojekyll`, uploads `out/`, and deploys through GitHub Pages.
+
+The custom domain is preserved by `public/CNAME`. Configure
+`NEXT_PUBLIC_APP_URL` in the workflow or repository environment if the product
+origin changes; otherwise the code's production fallback is used.
