@@ -16,7 +16,7 @@ const features = [
   {
     title: "Auto-clipping",
     body:
-      "Drop a stream or video URL. We pull the content, scan the transcript, and surface the moments most likely to go viral — no manual scrubbing.",
+      "Drop a stream or video URL. Librarian downloads it securely on your computer, then our AI surfaces the moments most likely to go viral — no manual scrubbing.",
   },
   {
     title: "Review & download",
@@ -101,6 +101,7 @@ const plans = [
       "Full clip library with recut & re-export",
       "Clips stored for 30 days",
       "Download every clip as a ready-to-post vertical MP4",
+      "Required Librarian desktop companion included",
     ],
     highlighted: false,
   },
@@ -121,6 +122,10 @@ const plans = [
 ];
 
 const faqs: { q: string; a: string }[] = [
+  {
+    q: "Do I need to install anything?",
+    a: "Yes. Encyclipedia Librarian is a required desktop companion for macOS, Windows, or Linux. It signs in to your account, downloads source media on your computer, and hands it securely to our renderer. Onboarding verifies that Librarian is installed, signed in, and online before you can continue.",
+  },
   {
     q: "Is it really unlimited?",
     a: "Yes. No credits, no per-clip charges, no monthly cap on streams or clips. As long as you're using it the way a creator would, you'll never see a limit.",
@@ -217,7 +222,32 @@ export default function Landing() {
             </a>
           </div>
           <p className="mt-4 text-xs text-muted">Start free · 7-day trial, then $10/mo (Basic) or $30/mo (Premium) · no charge until your trial ends · cancel anytime</p>
+          <p className="mt-2 text-xs font-medium text-ink">
+            Requires the free Encyclipedia Librarian desktop app for macOS, Windows, or Linux.
+          </p>
         </FadeInOnView>
+
+        {/* Required desktop companion */}
+        <section className="max-w-[1000px] mx-auto px-6 pb-16 md:pb-20">
+          <div className="rounded-xl border border-accent/50 bg-accent-soft/30 px-6 py-7 md:px-10 md:py-9 text-center">
+            <p className="smallcaps text-[10px] text-accent mb-2">Required desktop companion</p>
+            <h3 className="font-serif text-2xl md:text-3xl font-bold">
+              Librarian handles downloads on your computer.
+            </h3>
+            <p className="mt-3 text-sm text-muted leading-relaxed max-w-2xl mx-auto">
+              Install Librarian during onboarding, sign in with the same account,
+              and leave it open while jobs run. Your browser login and YouTube
+              cookies stay local; only the media needed for your clipping jobs is
+              handed to our renderer.
+            </p>
+            <a
+              href={`${APP_URL}/onboarding`}
+              className="mt-5 inline-flex items-center justify-center rounded-md border border-accent px-5 py-2.5 font-serif text-sm text-accent hover:bg-accent hover:text-accent-contrast transition"
+            >
+              Start guided setup
+            </a>
+          </div>
+        </section>
 
         {/* How it works */}
         <section className="max-w-[1200px] mx-auto px-6 py-16 border-t border-border">
@@ -225,12 +255,23 @@ export default function Landing() {
           <h3 className="font-serif text-3xl md:text-4xl font-bold text-center mb-12">
             Paste. Wait. Download.
           </h3>
-          <div className="grid sm:grid-cols-3 gap-6 md:gap-10 max-w-4xl mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-6xl mx-auto">
             {[
               {
                 num: "01",
+                title: "Install Librarian",
+                body: "Download the required desktop app, open it, and sign in. Onboarding confirms it is online before unlocking the product.",
+                visual: (
+                  <div className="rounded-lg border border-accent/40 bg-accent-soft/30 px-4 py-2.5 flex items-center justify-center gap-2 mt-4">
+                    <span className="h-2 w-2 rounded-full bg-accent" />
+                    <span className="text-[11px] text-ink">Librarian online</span>
+                  </div>
+                ),
+              },
+              {
+                num: "02",
                 title: "Drop a stream or video URL",
-                body: "Paste any link — a live stream, upload, or VOD. We resolve the source and queue it instantly.",
+                body: "Paste any supported link — a stream, upload, or VOD. We resolve the source and queue it instantly.",
                 visual: (
                   <div className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-center gap-2 mt-4">
                     <span className="text-muted text-xs flex-1 font-mono truncate">stream.example/video/…</span>
@@ -239,9 +280,9 @@ export default function Landing() {
                 ),
               },
               {
-                num: "02",
-                title: "AI scans the whole stream",
-                body: "We transcribe audio, identify viral moments, and render vertical 9:16 clips — all automatically, no timeline scrubbing.",
+                num: "03",
+                title: "Librarian and AI get to work",
+                body: "Librarian downloads locally; our AI identifies viral moments and the renderer creates vertical 9:16 clips.",
                 visual: (
                   <div className="rounded-lg border border-border bg-surface px-4 py-2.5 flex items-center gap-3 mt-4">
                     <div className="h-3 w-3 rounded-full border-2 border-accent border-t-transparent animate-spin shrink-0" />
@@ -250,7 +291,7 @@ export default function Landing() {
                 ),
               },
               {
-                num: "03",
+                num: "04",
                 title: "Review, pick, download",
                 body: "Browse clips in your dashboard, fine-tune any start/end point, and download polished vertical MP4s ready to post.",
                 visual: (
