@@ -262,8 +262,8 @@ export default function Landing() {
                 title: "Install Librarian",
                 body: "Download the required desktop app, open it, and sign in. Onboarding confirms it is online before unlocking the product.",
                 visual: (
-                  <div className="rounded-lg border border-accent/40 bg-accent-soft/30 px-4 py-2.5 flex items-center justify-center gap-2 mt-4">
-                    <span className="h-2 w-2 rounded-full bg-accent" />
+                  <div className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-4 py-2.5 flex items-center justify-center gap-2 mt-4">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500" />
                     <span className="text-[11px] text-ink">Librarian online</span>
                   </div>
                 ),
