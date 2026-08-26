@@ -2,57 +2,67 @@
 
 import { useEffect, useState } from "react";
 
-const LATEST_RELEASE_URL =
-  "https://github.com/encyclipedia-ai/encyclipedia-agent/releases/latest";
-const LATEST_RELEASE_API =
-  "https://api.github.com/repos/encyclipedia-ai/encyclipedia-agent/releases/latest";
+const LATEST_RELEASE_MANIFEST =
+  "https://downloads.encyclipedia.ai/librarian/latest.json";
 
-interface ReleaseAsset {
+interface DownloadAsset {
   name: string;
-  browser_download_url: string;
+  url: string;
+  sha256: string;
+  size: number;
 }
 
 interface LatestRelease {
-  tag_name: string;
-  html_url: string;
-  assets: ReleaseAsset[];
+  schemaVersion: 1;
+  version: string;
+  tag: string;
+  publishedAt: string;
+  releaseNotesUrl: string;
+  downloads: {
+    macos: DownloadAsset;
+    windows: DownloadAsset;
+    linux: DownloadAsset;
+  };
 }
 
 const platforms = [
   {
+    key: "macos",
     name: "macOS",
     detail: "Universal Apple Silicon + Intel installer",
-    extension: ".dmg",
   },
   {
+    key: "windows",
     name: "Windows",
     detail: "64-bit Windows installer",
-    extension: ".exe",
   },
   {
+    key: "linux",
     name: "Linux",
     detail: "64-bit AppImage",
-    extension: ".AppImage",
   },
 ] as const;
 
 export function LatestLibrarianDownloads() {
   const [release, setRelease] = useState<LatestRelease | null>(null);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
 
-    void fetch(LATEST_RELEASE_API, {
-      headers: { Accept: "application/vnd.github+json" },
+    void fetch(LATEST_RELEASE_MANIFEST, {
+      headers: { Accept: "application/json" },
       signal: controller.signal,
     })
       .then((response) => {
-        if (!response.ok) throw new Error(`GitHub returned ${response.status}`);
+        if (!response.ok) {
+          throw new Error(`Download service returned ${response.status}`);
+        }
         return response.json() as Promise<LatestRelease>;
       })
       .then(setRelease)
       .catch(() => {
-        // Every button retains the stable latest-release fallback below.
+        if (!controller.signal.aborted) setFailed(true);
       });
 
     return () => controller.abort();
@@ -62,17 +72,18 @@ export function LatestLibrarianDownloads() {
     <div>
       <div className="grid gap-4 sm:grid-cols-3">
         {platforms.map((platform) => {
-          const asset = release?.assets.find(
-            (candidate) =>
-              candidate.name.endsWith(platform.extension) &&
-              !candidate.name.endsWith(".blockmap"),
-          );
+          const asset = release?.downloads[platform.key];
 
           return (
             <a
               key={platform.name}
-              href={asset?.browser_download_url ?? LATEST_RELEASE_URL}
-              className="group rounded-lg border border-border bg-surface px-5 py-5 text-center transition hover:border-accent hover:-translate-y-0.5"
+              href={asset?.url}
+              aria-disabled={!asset}
+              className={`group rounded-lg border border-border bg-surface px-5 py-5 text-center transition ${
+                asset
+                  ? "hover:border-accent hover:-translate-y-0.5"
+                  : "pointer-events-none opacity-60"
+              }`}
             >
               <span className="smallcaps text-[10px] text-accent">
                 Download for
@@ -88,15 +99,21 @@ export function LatestLibrarianDownloads() {
         })}
       </div>
       <p className="mt-4 text-center text-xs text-muted">
-        {release
-          ? `Latest stable release: ${release.tag_name}`
-          : "Resolving the latest stable release from GitHub…"}{" "}
-        <a
-          href={release?.html_url ?? LATEST_RELEASE_URL}
-          className="text-accent hover:underline"
-        >
-          View release notes
-        </a>
+        {release ? (
+          <>
+            Latest stable release: v{release.version}{" "}
+            <a
+              href={release.releaseNotesUrl}
+              className="text-accent hover:underline"
+            >
+              Release details
+            </a>
+          </>
+        ) : failed ? (
+          "Downloads are temporarily unavailable. Please try again shortly."
+        ) : (
+          "Resolving the latest stable Librarian release…"
+        )}
       </p>
     </div>
   );

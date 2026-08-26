@@ -152,9 +152,9 @@ export default function LibrarianPage() {
             </h2>
             <p className="mt-3 mb-9 text-center text-sm text-muted max-w-2xl mx-auto leading-relaxed">
               Choose your platform, install the app, then sign in with the same
-              account you use on Encyclipedia. These links resolve directly from
-              the latest stable GitHub release, so this page always offers the
-              newest installer.
+              account you use on Encyclipedia. These links resolve through the
+              public Encyclipedia download service, so installers and automatic
+              updates remain available while the source repository stays private.
             </p>
             <LatestLibrarianDownloads />
             <p className="mt-8 text-center text-xs text-muted">
