@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const LATEST_RELEASE_MANIFEST =
-  "https://downloads.encyclipedia.ai/librarian/latest.json";
+  "https://storage.googleapis.com/production-496405-librarian-downloads/librarian/latest.json";
 
 interface DownloadAsset {
   name: string;
